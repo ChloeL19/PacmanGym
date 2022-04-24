@@ -50,6 +50,7 @@ class PacmanEnv(gym.Env):
     MAX_MAZE_SIZE = (7, 7)
     num_envs = 1
 
+    # CHLOE CHANGE: I don't want this to be partially observable
     observation_space = spaces.Box(low=0, high=255,
             shape=(84, 84, 3), dtype=np.uint8)
 
