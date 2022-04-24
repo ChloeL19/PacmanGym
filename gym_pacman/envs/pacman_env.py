@@ -233,14 +233,17 @@ class PacmanEnv(gym.Env):
         w, h = image.size
         DEFAULT_GRID_SIZE_X, DEFAULT_GRID_SIZE_Y = w / float(self.layout.width), h / float(self.layout.height)
 
-        extent = [
-            DEFAULT_GRID_SIZE_X *  (self.location[0] - 1),
-            DEFAULT_GRID_SIZE_Y *  (self.layout.height - (self.location[1] + 2.2)),
-            DEFAULT_GRID_SIZE_X *  (self.location[0] + 2),
-            DEFAULT_GRID_SIZE_Y *  (self.layout.height - (self.location[1] - 1.2))]
-        extent = tuple([int(e) for e in extent])
-        self.image_sz = (84,84)
-        image = image.crop(extent).resize(self.image_sz)
+        ## CHLOE CHANGES: trying to get rid of partial observability
+        # extent = [
+        #     DEFAULT_GRID_SIZE_X *  (self.location[0] - 1),
+        #     DEFAULT_GRID_SIZE_Y *  (self.layout.height - (self.location[1] + 2.2)),
+        #     DEFAULT_GRID_SIZE_X *  (self.location[0] + 2),
+        #     DEFAULT_GRID_SIZE_Y *  (self.layout.height - (self.location[1] - 1.2))]
+        # extent = tuple([int(e) for e in extent])
+        # self.image_sz = (84,84)
+        self.image_sz = (500,500)
+        # image = image.crop(extent).resize(self.image_sz)
+        image = image.resize(self.image_sz)
         return np.array(image)
 
     def render(self, mode='human'):
