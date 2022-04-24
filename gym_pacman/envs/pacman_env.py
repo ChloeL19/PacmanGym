@@ -51,8 +51,9 @@ class PacmanEnv(gym.Env):
     num_envs = 1
 
     # CHLOE CHANGE: I don't want this to be partially observable
+    # previous shape=(84,84,3)
     observation_space = spaces.Box(low=0, high=255,
-            shape=(84, 84, 3), dtype=np.uint8)
+            shape=(500, 500, 3), dtype=np.uint8)
 
     def __init__(self):
         self.action_space = spaces.Discrete(4) # up, down, left right
