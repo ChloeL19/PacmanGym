@@ -172,10 +172,9 @@ class PacmanEnv(gym.Env):
             }
 
         # CHLOE CHANGE: make this slippery!
+        pacman_action = PACMAN_ACTIONS[action]
         if self.slip is not None and random.random() < self.slip:
             pacman_action = PACMAN_ACTIONS[np.random.choice(len(PACMAN_ACTIONS), size=1)][0]
-        else:
-            pacman_action = PACMAN_ACTIONS[action]
 
         legal_actions = self.game.state.getLegalPacmanActions()
         illegal_action = False
