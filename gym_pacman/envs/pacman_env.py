@@ -55,7 +55,7 @@ class PacmanEnv(gym.Env):
     observation_space = spaces.Box(low=0, high=255,
             shape=(500, 500, 3), dtype=np.uint8)
 
-    def __init__(self):
+    def __init__(self, slip=None):
         self.action_space = spaces.Discrete(4) # up, down, left right
         self.display = PacmanGraphics(1.0)
         self._action_set = range(len(PACMAN_ACTIONS))
@@ -64,6 +64,7 @@ class PacmanEnv(gym.Env):
         self.done = False
         self.layout = None
         self.np_random = None
+        self.slip = slip
 
     def setObservationSpace(self):
         screen_width, screen_height = self.display.calculate_screen_dimensions(self.layout.width,   self.layout.height)
@@ -76,7 +77,7 @@ class PacmanEnv(gym.Env):
         chosenLayout=None, no_ghosts=True):
 
         if randomLayout:
-            self.layout = getRandomLayout(layout_params, self.np_random)
+            self.layout = getRandomLayout(layout_params, self.np_random) # causing problems
         else:
             if chosenLayout is None:
                 if not no_ghosts:
@@ -169,8 +170,13 @@ class PacmanEnv(gym.Env):
                 }]
             }
 
-
-        pacman_action = PACMAN_ACTIONS[action]
+        # CHLOE CHANGE: make this slippery!
+        if self.slip is not None:
+            import random
+            if random.random() < self.slip:
+                pacman_action = PACMAN_ACTIONS[np.random.choice(len(PACMAN_ACTIONS), size=1)][0]
+        else:
+            pacman_action = PACMAN_ACTIONS[action]
 
         legal_actions = self.game.state.getLegalPacmanActions()
         illegal_action = False
