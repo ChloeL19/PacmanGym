@@ -2,6 +2,7 @@ import gym
 from gym import spaces
 from gym.utils import seeding
 import numpy as np
+import random
 
 from .graphicsDisplay import PacmanGraphics, DEFAULT_GRID_SIZE
 
@@ -171,10 +172,8 @@ class PacmanEnv(gym.Env):
             }
 
         # CHLOE CHANGE: make this slippery!
-        if self.slip is not None:
-            import random
-            if random.random() < self.slip:
-                pacman_action = PACMAN_ACTIONS[np.random.choice(len(PACMAN_ACTIONS), size=1)][0]
+        if self.slip is not None and random.random() < self.slip:
+            pacman_action = PACMAN_ACTIONS[np.random.choice(len(PACMAN_ACTIONS), size=1)][0]
         else:
             pacman_action = PACMAN_ACTIONS[action]
 
